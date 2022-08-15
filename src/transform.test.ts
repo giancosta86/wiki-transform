@@ -105,6 +105,48 @@ describe("Wiki transform", () => {
           }
         ]
       ));
+
+    it("should parse CDATA", () => {
+      const title = "A & < > ' \" B";
+
+      const text = "X & < > ' \" Y";
+
+      return expectWikiPages(
+        `
+        <page>
+          <title><![CDATA[${title}]]></title>
+          <text><![CDATA[${text}]]></text>
+        </page>
+        `,
+
+        [
+          {
+            title,
+            text
+          }
+        ]
+      );
+    });
+
+    it("should parse CDATA mixed with text", () => {
+      const entityChars = "& < > ' \"";
+
+      return expectWikiPages(
+        `
+        <page>
+          <title>A <![CDATA[${entityChars}]]> B</title>
+          <text>X <![CDATA[${entityChars}]]> Y</text>
+        </page>
+        `,
+
+        [
+          {
+            title: `A ${entityChars} B`,
+            text: `X ${entityChars} Y`
+          }
+        ]
+      );
+    });
   });
 
   describe("within a container block", () => {

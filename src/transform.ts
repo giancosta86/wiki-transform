@@ -40,6 +40,11 @@ export class WikiTransform extends Transform {
         this.characterBuffer.push(characters);
       }
     })
+    .on("cdata", characters => {
+      if (this.bufferingCharacters) {
+        this.characterBuffer.push(characters);
+      }
+    })
     .on("closetag", tag => {
       switch (tag) {
         case "title":

@@ -51,13 +51,15 @@ with the following rules:
 
 - The order of the subfields is ignored
 
-- Additional subfields are ignored
+- _Additional subfields_ are ignored
 
-- Containing nodes are ignored
+- _Ancestor nodes_ are ignored
 
-- Whitespace is ignored
+- _Whitespace_ is ignored
 
-- XML entities like `&gt;` are substituted with their actual characters
+- _XML entities_ like `&gt;` are substituted with their actual characters
+
+- _CDATA blocks_ within significant fields are correctly parsed, and can be freely mixed with non-CDATA text
 
 ### Example
 
