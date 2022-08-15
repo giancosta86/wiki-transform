@@ -92,6 +92,10 @@ export async function extractWikiPages(
 
 - **signal**: if present, passed to the base constructor
 
+## Additional notes
+
+As a convenience utility, especially for testing, the package also provides a `wikiPageToXml()` function, which converts a WikiPage to XML - using a _CDATA block_ in every field.
+
 ## Further reference
 
 For additional examples, please consult the unit tests in the source code repository.
