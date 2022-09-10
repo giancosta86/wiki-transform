@@ -8,10 +8,15 @@ export type WikiTransformOptions = Readonly<{
   highWaterMark?: number;
   signal?: AbortSignal;
   logger?: Logger;
+  pageTag?: string;
 }>;
+
+const defaultPageTag = "page";
 
 export class WikiTransform extends Transform {
   private readonly logger?: Logger;
+
+  private readonly pageTag: string;
 
   private readonly characterBuffer: string[] = [];
   private bufferingCharacters = false;
@@ -59,7 +64,7 @@ export class WikiTransform extends Transform {
           this.characterBuffer.length = 0;
           break;
 
-        case "page":
+        case this.pageTag:
           if (!this.currentTitle) {
             this.logger?.info("Page without title!");
             return;
@@ -92,6 +97,7 @@ export class WikiTransform extends Transform {
     });
 
     this.logger = options?.logger;
+    this.pageTag = options?.pageTag ?? defaultPageTag;
   }
 
   override _transform(

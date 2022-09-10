@@ -61,6 +61,8 @@ with the following rules:
 
 - _CDATA blocks_ within significant fields are correctly parsed, and can be freely mixed with non-CDATA text
 
+- in lieu of `<page>`, the root tag can be something else - just pass the related opening tag (_without_ angle brackets) to the `pageTag` constructor option
+
 ### Example
 
 This basic but fairly general-purpose function:
@@ -86,11 +88,13 @@ export async function extractWikiPages(
 
 ### Constructor parameters
 
-- **logger**: a `Logger` interface, as exported by [unified-logging](https://github.com/giancosta86/unified-logging). **Default**: no logger
+- `pageTag`: if present, defines the tag opening each page, _without angle brackets_. **Default**: `"page"`
 
-- **highWaterMark**: if present, passed to the base constructor
+- `logger`: a `Logger` interface, as exported by [unified-logging](https://github.com/giancosta86/unified-logging). **Default**: no logger
 
-- **signal**: if present, passed to the base constructor
+- `highWaterMark`: if present, passed to the base constructor
+
+- `signal`: if present, passed to the base constructor
 
 ## Additional notes
 

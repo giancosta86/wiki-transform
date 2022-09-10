@@ -4,9 +4,14 @@ import { ArrayLogger } from "@giancosta86/unified-logging";
 import { WikiPage } from "./page";
 import { WikiTransform } from "./transform";
 
+type ExpectationOptions = Readonly<{
+  pageTag?: string;
+}>;
+
 async function expectWikiPages(
   xmlString: string,
-  expectedPages: readonly WikiPage[]
+  expectedPages: readonly WikiPage[],
+  options?: ExpectationOptions
 ): Promise<ArrayLogger> {
   const actualPages: WikiPage[] = [];
 
@@ -14,10 +19,10 @@ async function expectWikiPages(
 
   const logger = new ArrayLogger();
 
-  const wikiTransform = new WikiTransform({ logger }).on(
-    "data",
-    (page: WikiPage) => actualPages.push(page)
-  );
+  const wikiTransform = new WikiTransform({
+    logger,
+    pageTag: options?.pageTag
+  }).on("data", (page: WikiPage) => actualPages.push(page));
 
   await pipeline(sourceStream, wikiTransform);
 
@@ -51,6 +56,25 @@ describe("Wiki transform", () => {
         }
       ]
     ));
+
+  describe("when passing a custom page tag", () => {
+    it("should still extract a wiki page", () =>
+      expectWikiPages(
+        `
+        <article>
+          <title>Alpha</title>
+          <text>This is the text!</text>
+        </article>
+        `,
+        [
+          {
+            title: "Alpha",
+            text: "This is the text!"
+          }
+        ],
+        { pageTag: "article" }
+      ));
+  });
 
   describe("within a page", () => {
     it("should ignore the field order", () =>
