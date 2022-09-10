@@ -58,7 +58,7 @@ describe("Wiki transform", () => {
     ));
 
   describe("when passing a custom page tag", () => {
-    it("should still extract a wiki page", () =>
+    it("should extract a single wiki page", () =>
       expectWikiPages(
         `
         <article>
@@ -70,6 +70,43 @@ describe("Wiki transform", () => {
           {
             title: "Alpha",
             text: "This is the text!"
+          }
+        ],
+        { pageTag: "article" }
+      ));
+
+    it("should extract multiple wiki page, skipping malformed pages", () =>
+      expectWikiPages(
+        `
+        <wiki>
+          <article>
+            <title>Alpha</title>
+            <text>This is the text!</text>
+          </article>
+
+          <article>
+            <title>Beta</title>
+          </article>
+
+          <article>
+            <text>This is more text!</text>
+          </article>
+
+          <article>
+            <title>Delta</title>
+            <text>This is the last page!</text>
+          </article>
+        </wiki>
+        `,
+        [
+          {
+            title: "Alpha",
+            text: "This is the text!"
+          },
+
+          {
+            title: "Delta",
+            text: "This is the last page!"
           }
         ],
         { pageTag: "article" }

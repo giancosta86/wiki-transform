@@ -29,7 +29,7 @@ export class WikiTransform extends Transform {
   private readonly saxStream = createStream(true)
     .on("opentag", tag => {
       switch (tag.name) {
-        case "page":
+        case this.pageTag:
           this.currentTitle = undefined;
           this.currentText = undefined;
           break;
