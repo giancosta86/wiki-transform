@@ -63,6 +63,8 @@ with the following rules:
 
 - in lieu of `<page>`, the root tag can be something else - just pass the related opening tag (_without_ angle brackets) to the `pageTag` constructor option
 
+**Please, note**: this library does _NOT_ support **nested tags** within the `<text>` element! To handle them, you should instead rely on dedicated SAX parsing.
+
 ### Example
 
 This basic but fairly general-purpose function:
