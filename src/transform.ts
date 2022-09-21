@@ -3,6 +3,7 @@ import { createStream } from "sax";
 import { Logger } from "@giancosta86/unified-logging";
 import { formatError } from "@giancosta86/format-error";
 import { WikiPage } from "./page";
+import { DEFAULT_PAGE_TAG } from "./core";
 
 export type WikiTransformOptions = Readonly<{
   highWaterMark?: number;
@@ -10,8 +11,6 @@ export type WikiTransformOptions = Readonly<{
   logger?: Logger;
   pageTag?: string;
 }>;
-
-const defaultPageTag = "page";
 
 export class WikiTransform extends Transform {
   private readonly logger?: Logger;
@@ -97,7 +96,7 @@ export class WikiTransform extends Transform {
     });
 
     this.logger = options?.logger;
-    this.pageTag = options?.pageTag ?? defaultPageTag;
+    this.pageTag = options?.pageTag ?? DEFAULT_PAGE_TAG;
   }
 
   override _transform(
